@@ -23,8 +23,8 @@ public:
     Ball(float pos_x, float pos_y, float speed, float acc, float d_x, float d_y): pos_x(pos_x), pos_y(pos_y), speed(speed), acc(acc), d_x(d_x), d_y(d_y) {}
     float pos_x = 0.0f;
     float pos_y = 0.0f;
-    float speed = 0.02f;
-    float acc = 0.001f;
+    float speed = 0.5f;
+    float acc = 2.0f;
     float d_x = (float)(rand()% 5 +1);
     float d_y = (float)(rand()%10 - 4);
     
@@ -32,8 +32,8 @@ public:
         pos_x = 0.0f;
         pos_y = 0.0f;
         speed = 0.05f;
-        d_x = (float)rand();
-        d_y = (float)rand();
+        d_x = (float)(rand() %5 + 1);
+        d_y = (float)(rand() %10 - 4);
     }
     
     void move(float elapsed) {
@@ -74,7 +74,7 @@ GLint LoadTexture(const char *filePath) {
 
 ShaderProgram SetUp() {
     SDL_Init(SDL_INIT_VIDEO);
-    displayWindow = SDL_CreateWindow("Ashley Lee - Assignment 2" , SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 360, SDL_WINDOW_OPENGL);
+    displayWindow = SDL_CreateWindow("Ashley Lee - Assignment 2" , SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1600, 900, SDL_WINDOW_OPENGL);
     SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
     SDL_GL_MakeCurrent(displayWindow, context);
     #ifdef _WINDOWS
@@ -105,8 +105,8 @@ int main(int argc, char *argv[])
     
     float lastFrameTicks = 0.0f;
     
-    Paddle paddleLeft(-1.7f, -1.6f, 0.5f, -0.5f);
-    Paddle paddleRight(1.6f, 1.7f, 0.5f, -0.5f);
+    Paddle paddleLeft(-3.7f, -3.6f, 0.5f, -0.5f);
+    Paddle paddleRight(3.6f, 3.7f, 0.5f, -0.5f);
     Ball ball = Ball(0.0f, 0.0f, 0.01f, 0.001f, (float)rand(), (float)rand());
     
     SDL_Event event;
@@ -134,52 +134,49 @@ int main(int argc, char *argv[])
                 
                 //left paddle
                 if (event.key.keysym.scancode == SDL_SCANCODE_W && paddleLeft.top < 3.0f){
-                    paddleLeft.top += 0.3f;
-                    paddleLeft.bottom += 0.3f;
-                    paddleLeftMatrix.Translate(0.0f, 0.3f, 0.0f);
+                    paddleLeft.top += 0.5f;
+                    paddleLeft.bottom += 0.5f;
+                    paddleLeftMatrix.Translate(0.0f, 0.5f, 0.0f);
                 } else if (event.key.keysym.scancode == SDL_SCANCODE_S && paddleLeft.bottom > -3.0f){
-                    paddleLeft.top -= 0.3f;
-                    paddleLeft.bottom -= 0.3f;
-                    paddleLeftMatrix.Translate(0.0f, 0.3f, 0.0f);
+                    paddleLeft.top -= 0.5f;
+                    paddleLeft.bottom -= 0.5f;
+                    paddleLeftMatrix.Translate(0.0f, -0.5f, 0.0f);
                 }
                 
                 //right paddle
                 if (event.key.keysym.scancode == SDL_SCANCODE_UP && paddleRight.top < 3.0f) {
-                    paddleRight.top += 0.3f;
-                    paddleRight.bottom += 0.3f;
-                    paddleRightMatrix.Translate(0.0f, 0.3f, 0.0f);
+                    paddleRight.top += 0.5f;
+                    paddleRight.bottom += 0.5f;
+                    paddleRightMatrix.Translate(0.0f, 0.5f, 0.0f);
                 } else if (event.key.keysym.scancode == SDL_SCANCODE_DOWN && paddleRight.bottom > -3.0f) {
-                    paddleRight.top -= 0.3f;
-                    paddleRight.bottom -= 0.3f;
-                    paddleRightMatrix.Translate(0.0f, -0.3f, 0.0f);
+                    paddleRight.top -= 0.5f;
+                    paddleRight.bottom -= 0.5f;
+                    paddleRightMatrix.Translate(0.0f, -0.5f, 0.0f);
                 }
             }
         }
         
         //Draw
         
-        glUseProgram(program.programID);
-        
         program.SetProjectionMatrix(projectionMatrix);
         program.SetModelviewMatrix(viewMatrix);
         program.SetModelviewMatrix(paddleLeftMatrix);
         
+        glClear(GL_COLOR_BUFFER_BIT);
+        glUseProgram(program.programID);
+        
         float texCoords1[] = { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f };
         
         //Puppy Ball
-        program.SetModelviewMatrix(ballMatrix);
-        modelviewMatrix.Identity();
-        glBindTexture(GL_TEXTURE_2D, puppy_texture);
-        program.SetModelviewMatrix(modelviewMatrix);
         
-        float puppyVertices[] = {-0.2f, 0.2f, -0.2f, -0.2f, 0.2f, -0.2f, 0.2f, -0.2f, 0.2f, 0.2f, -0.2f, 0.2f};
+        program.SetModelviewMatrix(ballMatrix);
+        float puppyVertices[] = { -0.1f, -0.1f, 0.1f, -0.1f, 0.1f, 0.1f, 0.1f, 0.1f, -0.1f, 0.1f, -0.1f, -0.1f };
         glVertexAttribPointer(program.positionAttribute, 2, GL_FLOAT, false, 0, puppyVertices);
         glEnableVertexAttribArray(program.positionAttribute);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
         
         glVertexAttribPointer(program.texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords1);
         glEnableVertexAttribArray(program.texCoordAttribute);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        
         glBindTexture(GL_TEXTURE_2D, puppy_texture);
         
         glDisableVertexAttribArray(program.positionAttribute);
@@ -189,10 +186,9 @@ int main(int argc, char *argv[])
         
         program.SetModelviewMatrix(paddleLeftMatrix);
         
-        float paddleVertices1[] = {-3.0f, 1.0f, -3.0f, -1.0f, -2.0f, -1.0f, -2.0f, -1.0f, -2.0f, 1.0f, -3.0f, 1.0f};
-        glVertexAttribPointer(program.positionAttribute, 2, GL_FLOAT, false, 0, paddleVertices1);
+        float paddleLeftVertices[] = { -3.7f, -0.5f, -3.6f, -0.5f, -3.6f, 0.5f, -3.6f, 0.5f, -3.7f, 0.5f, -3.7f, -0.5f };
+        glVertexAttribPointer(program.positionAttribute, 2, GL_FLOAT, false, 0, paddleLeftVertices);
         glEnableVertexAttribArray(program.positionAttribute);
-        
         glDrawArrays(GL_TRIANGLES, 0, 6);
         
         glVertexAttribPointer(program.texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords1);
@@ -205,11 +201,9 @@ int main(int argc, char *argv[])
         //Paddle 2
         
         program.SetModelviewMatrix(paddleRightMatrix);
-        
-        float paddleVertices2[] = {1.2, -0.2, 1.2, -0.2, 1.2, 0.2, 1.2, 0.2, 1.2, 0.2, 1.2, -0.2};
-        glVertexAttribPointer(program.positionAttribute, 2, GL_FLOAT, false, 0, paddleVertices2);
+        float paddleRightVertices[] = { 3.6f, -0.5f, 3.7f, -0.5f, 3.6f, 0.5f, 3.7f, 0.5f, 3.6f, 0.5f, 3.7f, -0.5f };
+        glVertexAttribPointer(program.positionAttribute, 2, GL_FLOAT, false, 0, paddleRightVertices);
         glEnableVertexAttribArray(program.positionAttribute);
-        
         glDrawArrays(GL_TRIANGLES, 0, 6);
         
         glVertexAttribPointer(program.texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords1);
