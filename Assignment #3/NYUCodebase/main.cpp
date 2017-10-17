@@ -22,6 +22,12 @@
 SDL_Window* displayWindow;
 GLuint sprite_sheet_tex;
 GLuint font_tex;
+
+GLuint bullet_tex;
+GLuint ball_tex;
+GLuint user_tex;
+GLuint minion_tex;
+
 Matrix viewMatrix;
 Matrix modelMatrix;
 Matrix projectionMatrix;
@@ -109,7 +115,7 @@ void DrawText(ShaderProgram* program, int fontTexture, std::string text, float s
 class Entity {
 public:
     Entity() {}
-    Entity(float x, float y, float spriteCountX, float spriteCountY, float dx, float dy, float index) {
+    Entity(float x, float y, float spriteCountX, float spriteCountY, float dx, float dy, float index, GLuint texture) {
         spriteCountX = spriteCountX;
         spriteCountY = spriteCountY;
         
@@ -125,30 +131,40 @@ public:
         sides_left = x - 0.05f * size;
         sides_right = x + 0.05f *size;
         
+        texture = texture;
     }
     
     void draw(){
         
-        u = (float)((int)(index) % (int)1024) / (float) spriteCountX;
-        v = (float)(((int)index) / 1024) / (float) spriteCountY;
-        w = 1.0/(float)spriteCountX;
-        h = 1.0/(float)spriteCountY;
-        GLfloat texCoords[] = {
-            u, v+h,
-            u+w, v,
-            u, v,
-            u+w, v,
-            u, v+h,
-            u+w, v+h
-        };
+//        u = (float)((int)(index) % (int)1024) / (float) spriteCountX;
+//        v = (float)(((int)index) / 1024) / (float) spriteCountY;
+//        w = 1.0/(float)spriteCountX;
+//        h = 1.0/(float)spriteCountY;
+//        GLfloat texCoords[] = {
+//            u, v+h,
+//            u+w, v,
+//            u, v,
+//            u+w, v,
+//            u, v+h,
+//            u+w, v+h
+//        };
         float aspect = w / h;
+//        float vertices[] = {
+//            -0.5f * size * aspect, -0.5f * size,
+//            0.5f * size * aspect, 0.5f * size,
+//            -0.5f * size * aspect, 0.5f * size,
+//            0.5f * size * aspect, 0.5f * size,
+//            -0.5f * size * aspect, -0.5f * size ,
+//            0.5f * size * aspect, -0.5f * size};
+        
         float vertices[] = {
-            -0.5f * size * aspect, -0.5f * size,
-            0.5f * size * aspect, 0.5f * size,
-            -0.5f * size * aspect, 0.5f * size,
-            0.5f * size * aspect, 0.5f * size,
-            -0.5f * size * aspect, -0.5f * size ,
-            0.5f * size * aspect, -0.5f * size};
+                        -0.5f * size * aspect, -0.5f * size,
+                        0.5f * size * aspect, 0.5f * size,
+                        -0.5f * size * aspect, 0.5f * size,
+                        0.5f * size * aspect, 0.5f * size,
+                        -0.5f * size * aspect, -0.5f * size ,
+                        0.5f * size * aspect, -0.5f * size};
+        float texCoords[] ={0.0,1.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,1.0,1.0,1.0};
         
         // draw this data
         glUseProgram(program->programID);
@@ -159,7 +175,7 @@ public:
         glEnableVertexAttribArray(program->positionAttribute);
         glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
         glEnableVertexAttribArray(program->texCoordAttribute);
-        glBindTexture(GL_TEXTURE_2D, sprite_sheet_tex);
+        glBindTexture(GL_TEXTURE_2D, texture);
         glDrawArrays(GL_TRIANGLES, 0, 6);
         
         glDisableVertexAttribArray(program->positionAttribute);
@@ -186,6 +202,9 @@ public:
     float sides_left;
     float sides_right;
     float index;
+    
+    //for sprite sheet
+    GLuint texture;
 };
 
 //GAME STATES/MODES
@@ -238,7 +257,7 @@ void UpdateGame(float elapsed) {
     
     if (shoot_control && last_bullet_time > 0.3f) {
         last_bullet_time=0.0f;
-        bullets.push_back(Entity(user.pos_x, user.pos_y, 16, 8, 0.0f, 4.0f,98));
+        bullets.push_back(Entity(user.pos_x, user.pos_y, 16, 8, 0.0f, 4.0f,98, bullet_tex));
     }
     
     std::vector<int> removeBullets;
@@ -285,7 +304,7 @@ void UpdateGame(float elapsed) {
     if (last_ball_time > 0.5f) {
         last_ball_time = 0.0f;
         int slime_shooter = rand()%minions.size();
-        slimeballs.push_back(Entity(minions[slime_shooter].pos_x, minions[slime_shooter].pos_y, 16, 8, 0, -2.0f, 22));
+        slimeballs.push_back(Entity(minions[slime_shooter].pos_x, minions[slime_shooter].pos_y, 16, 8, 0, -2.0f, 22, ball_tex));
     }
     
     for (size_t i = 0; i < slimeballs.size(); i++) {
@@ -345,13 +364,18 @@ int main(int argc, char *argv[])
     program->SetModelviewMatrix(viewMatrix);
     
     sprite_sheet_tex=LoadTexture("/Users/ashleylee/Desktop/CS3113/Assignment #3/NYUCodebase/sprite/character/arne_sprites.png");
+    bullet_tex=LoadTexture("/Users/ashleylee/Desktop/CS3113/Assignment #3/NYUCodebase/sprite/character/arne_sprites_02.png");
+    ball_tex=LoadTexture("/Users/ashleylee/Desktop/CS3113/Assignment #3/NYUCodebase/sprite/character/arne_sprites_16.png");
+    minion_tex=LoadTexture("/Users/ashleylee/Desktop/CS3113/Assignment #3/NYUCodebase/sprite/character/arne_sprites_56.png");
+    user_tex=LoadTexture("/Users/ashleylee/Desktop/CS3113/Assignment #3/NYUCodebase/sprite/character/arne_sprites_62.png");
+    
     font_tex=LoadTexture("/Users/ashleylee/Desktop/CS3113/Assignment #3/NYUCodebase/sprite/fonts/font1.png");
     
     
-    user = Entity(0.0f, 0.0f, 16, 8, 3.0f, 0, 98);
+    user = Entity(0.0f, 0.0f, 16, 8, 3.0f, 0, 98, user_tex);
     
     for (int i =0; i < 55; i++){
-        Entity minion(-1.5 + (i % 11) * 0.5, 1.0 - (i / 11 * 0.5), 16, 8, 1.0f, 0.03f, 102);
+        Entity minion(-1.5 + (i % 11) * 0.5, 1.0 - (i / 11 * 0.5), 16, 8, 1.0f, 0.03f, 102, minion_tex);
         minions.push_back(minion);
     }
 	while (!done) {
