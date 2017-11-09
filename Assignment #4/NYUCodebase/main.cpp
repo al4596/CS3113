@@ -121,7 +121,6 @@ int main(int argc, char *argv[])
     Matrix playerMatrix;
     Matrix platform1Matrix;
     Matrix platform2Matrix;
-    Matrix tokenMatrix;
     Matrix viewMatrix;
     Matrix modelviewMatrix;
     
@@ -139,10 +138,9 @@ int main(int argc, char *argv[])
     Entity* player = new Entity(0.5, 0.5, 0.0, 0.9);
     Entity* platform1 = new Entity(0.4, 40.0, 0.0, -1.00);
     Entity* platform2 = new Entity(0.3, 0.5, 0.0, -0.27);
-    Entity* token = new Entity(0.2, 0.2, 3.0, -0.5);
+
     platform1->fall = false;
     platform2->fall = false;
-    token->fall = false;
     player->fall = true;
     
     while (!done) {
@@ -283,26 +281,8 @@ int main(int argc, char *argv[])
         glDisableVertexAttribArray(program.positionAttribute);
         glDisableVertexAttribArray(program.texCoordAttribute);
         
-        if (player->collision(token)) {
-            token->posX = 100.0;
-        }
-        
-        tokenMatrix.Identity();
-        tokenMatrix.Translate(token->posX,token->posY, 0.0f);
-
-        program.SetModelviewMatrix(tokenMatrix);
         
         glBindTexture(GL_TEXTURE_2D, playerTexture);
-        
-        float tokenVertices[] = {-0.1, 0.1, -0.1, -0.1, 0.1, -0.1, -0.1, 0.1, 0.1, -0.1, 0.1, 0.1};
-        
-        glVertexAttribPointer(program.positionAttribute, 2, GL_FLOAT, false, 0, tokenVertices);
-        glEnableVertexAttribArray(program.positionAttribute);
-        
-        float tokenTexCoords[] = {0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0};
-        
-        glVertexAttribPointer(program.texCoordAttribute, 2, GL_FLOAT, false, 0, tokenTexCoords);
-        glEnableVertexAttribArray(program.texCoordAttribute);
         
         glDrawArrays(GL_TRIANGLES, 0, 6);
         
