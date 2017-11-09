@@ -135,8 +135,8 @@ int main(int argc, char *argv[])
     float lastFrameTicks = 0;
     float gravity = -3.5f;
     
-    Entity* player = new Entity(0.5, 0.5, 0.0, 0.9);
-    Entity* platform1 = new Entity(0.4, 40.0, 0.0, -1.00);
+    Entity* player = new Entity(0.5, 0.0, 0.0, 0.9);
+    Entity* platform1 = new Entity(0.4, 33.0, 0.0, -1.00);
     Entity* platform2 = new Entity(0.3, 0.5, 0.0, -0.27);
 
     platform1->fall = false;
@@ -161,29 +161,34 @@ int main(int argc, char *argv[])
             if(event.type == SDL_KEYDOWN) {
                 if (event.key.keysym.scancode == SDL_SCANCODE_UP) {
                     player->jump = true;
-                    player->velY = 2.5f;
+                    
+                    player->velY = 3.0f;
                 }
                 if (event.key.keysym.scancode == SDL_SCANCODE_DOWN) {
                     player->down = true;
-                    player->velY = -3.5f;
+                    
+                    player->velY = -3.0f;
                 }
                 if (event.key.keysym.scancode == SDL_SCANCODE_LEFT) {
+                    
                     player->toLeft = true;
-                    player->velX = -3.5f;
+                    
+                    player->velX = -3.0f;
                     player->accX = -1.0f;
                 }
                 if (event.key.keysym.scancode == SDL_SCANCODE_RIGHT) {
                     player->toRight = true;
-                    player->velX = 3.5f;
+                    
                     player->accX = 1.0f;
+                    player->velX = 3.0f;
                 }
             }
             
             if (event.type == SDL_KEYUP) {
-                player->toLeft = false;
-                player->toRight = false;
                 player->down = false;
                 player->jump = false;
+                player->toLeft = false;
+                player->toRight = false;
                 player->fall = true;
             }
         }
@@ -231,27 +236,27 @@ int main(int argc, char *argv[])
         glDisableVertexAttribArray(program.texCoordAttribute);
         
         if (player->fall || player->down) {
-            player->velY += gravity * elapsed;
             player->posY += player->velY * elapsed;
+            player->velY += gravity * elapsed;
         }
         
         if (player->collision(platform1) || player->collision(platform2)) {
-            if (player->top > platform1->bottom) {
+            if (platform1->bottom < player->top) {
                 float penetration = fabsf((player->posY - platform1->posY) - (platform1->height/2) - (player->height/2));
                 player->posY += penetration + .0003;
                 player->velY *= -1;
             }
-            else if (player->top > platform1->bottom) {
+            else if (platform1->bottom < player->top) {
                 float penetration = fabsf((player->posY - platform2->posY) - (platform1->height/2) - (player->height/2));
-                player->posY += penetration + .0003;
+                player->posY += penetration+.0003;
                 player->velY *= -1;
             }
             player->fall = false;
         }
         
         if (player->toLeft || player->toRight) {
-            player->velX += player->accX * elapsed;
-            player->posX += player->velX * elapsed;
+            player->velX += player->accX*elapsed;
+            player->posX += player->velX*elapsed;
         }
         
         if (player->jump) {
@@ -280,7 +285,6 @@ int main(int argc, char *argv[])
         
         glDisableVertexAttribArray(program.positionAttribute);
         glDisableVertexAttribArray(program.texCoordAttribute);
-        
         
         glBindTexture(GL_TEXTURE_2D, playerTexture);
         
