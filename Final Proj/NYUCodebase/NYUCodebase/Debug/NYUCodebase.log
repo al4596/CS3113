@@ -1,0 +1,28 @@
+﻿  TileFile.cpp
+  Tile.cpp
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\tile.cpp(24): warning C4356: 'Rectangle::VERTICES': static data member cannot be initialized via derived class
+  ShaderProgram.cpp
+  Rectangle.cpp
+  Player.cpp
+  Matrix.cpp
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\matrix.cpp(148): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\matrix.cpp(149): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\matrix.cpp(150): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\matrix.cpp(151): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\matrix.cpp(165): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\matrix.cpp(166): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\matrix.cpp(167): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\matrix.cpp(168): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\matrix.cpp(172): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\matrix.cpp(173): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\matrix.cpp(174): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\matrix.cpp(175): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\matrix.cpp(213): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\matrix.cpp(214): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  main.cpp
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\main.cpp(119): warning C4018: '<': signed/unsigned mismatch
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\main.cpp(484): warning C4244: 'argument': conversion from 'Uint32' to 'float', possible loss of data
+c:\users\simon\desktop\final proj\new-nyucodebase\nyucodebase\main.cpp(493): warning C4244: 'argument': conversion from 'Uint32' to 'float', possible loss of data
+  Generating Code...
+  NYUCodebase.vcxproj -> C:\Users\Simon\Desktop\Final Proj\new-NYUCodebase\Debug\NYUCodebase.exe
+  NYUCodebase.vcxproj -> C:\Users\Simon\Desktop\Final Proj\new-NYUCodebase\Debug\NYUCodebase.pdb (Partial PDB)

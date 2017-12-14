@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="36" height="9" tilewidth="70" tileheight="70" nextobjectid="25">
+ <tileset firstgid="1" name="Snow" tilewidth="70" tileheight="70" tilecount="49" columns="7">
+  <image source="Snow.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="50" name="Entities" tilewidth="128" tileheight="71" tilecount="4" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image width="128" height="71" source="cloud.png"/>
+  </tile>
+  <tile id="1">
+   <image width="70" height="70" source="coin.png"/>
+  </tile>
+  <tile id="2">
+   <image width="70" height="70" source="key.png"/>
+  </tile>
+  <tile id="3">
+   <image width="70" height="70" source="rock.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="54" source="dirt.tsx"/>
+ <tileset firstgid="69" source="iceland.tsx"/>
+ <objectgroup name="Clouds">
+  <object id="2" gid="50" x="490.667" y="85" width="128" height="71"/>
+  <object id="23" gid="50" x="1891" y="473" width="128" height="71"/>
+ </objectgroup>
+ <layer name="Platform" width="36" height="9">
+  <data encoding="csv">
+30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,24,
+31,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,
+31,0,0,0,0,0,0,0,0,0,0,24,24,24,24,24,24,24,46,0,117,117,117,117,117,117,117,117,0,18,24,24,24,24,24,10,
+31,0,0,0,0,0,0,0,0,0,24,10,10,10,10,10,0,0,0,0,0,72,72,72,72,72,72,72,18,25,10,10,10,10,10,10,
+31,0,0,0,0,0,0,0,0,103,10,10,10,10,10,10,0,0,0,0,0,5,24,24,24,24,24,24,10,10,10,10,10,10,10,10,
+45,130,127,72,72,72,72,72,72,72,10,10,10,10,10,10,0,0,0,0,0,0,0,0,10,10,10,10,10,10,10,10,10,10,10,10,
+10,130,130,130,104,104,104,104,104,104,10,10,10,10,10,10,0,0,0,0,0,0,0,0,10,10,10,10,10,10,10,10,10,10,10,10,
+10,10,130,130,10,104,104,104,104,104,10,10,10,10,10,10,24,24,24,24,24,24,10,0,10,10,10,10,10,10,10,10,10,10,10,10,
+10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10
+</data>
+ </layer>
+ <objectgroup name="Entities">
+  <object id="7" name="Start" type="Start" gid="52" x="85" y="273.667" width="70" height="70"/>
+  <object id="10" name="Rock" type="Rock" gid="53" x="1260" y="490" width="70" height="70"/>
+  <object id="13" type="Coin" gid="51" x="1120" y="140" width="70" height="70"/>
+  <object id="21" name="Start2" type="Start2" gid="52" x="479" y="263" width="70" height="70"/>
+ </objectgroup>
+</map>

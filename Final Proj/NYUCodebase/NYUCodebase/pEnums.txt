@@ -1,0 +1,18 @@
+	enum States {
+		RAGE,
+		HURT,
+		JUMP,
+		STAND,
+		WALK01,
+		WALK02,
+		WALK03,
+		WALK04,
+		WALK05,
+		WALK06,
+		WALK07,
+		WALK08,
+		WALK09,
+		WALK10,
+		WALK11,
+		NUM_STATES
+	};
